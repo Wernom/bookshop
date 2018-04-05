@@ -6,12 +6,9 @@
 
  // Paramètres pour accéder à la base de données
 define('BS_SERVER', 'localhost');
-/*define('BS_DB', 'bookshop_db');
+define('BS_DB', 'bookshop_db');
 define('BS_USER', 'bookshop_user');
-define('BS_PASS', 'bookshop_pass');*/
-define('BS_DB', 'bookshop_merlet');
-define('BS_USER', 'u_merlet');
-define('BS_PASS', 'p_merlet');
+define('BS_PASS', 'bookshop_pass');
 
 //---------------------------------------------------------------
 // Définition des types de zones de saisies
