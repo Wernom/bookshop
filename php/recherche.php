@@ -87,6 +87,7 @@ function fdl_contenu($valueType, $valueQuoi) {
 	$res = mysqli_query($bd, $sql) or fd_bd_erreur($bd,$sql);
 
 	$lastID = -1;
+	$_SESSION['articles'] = array();
 	while ($t = mysqli_fetch_assoc($res)) {
 		if ($t['liID'] != $lastID) {
 			if ($lastID != -1) {
@@ -103,6 +104,7 @@ function fdl_contenu($valueType, $valueQuoi) {
 							'prix' => $t['liPrix'],
 							'auteurs' => array(array('prenom' => $t['auPrenom'], 'nom' => $t['auNom']))
 						);
+			$_SESSION['articles'][] = $t['liID'];
 		}
 		else {
 			$livre['auteurs'][] = array('prenom' => $t['auPrenom'], 'nom' => $t['auNom']);
