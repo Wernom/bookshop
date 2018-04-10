@@ -37,7 +37,7 @@ function fdl_contenu() {
 		'<h2>Dernières nouveautés </h2>',
 	
 		'<p>Voici les 4 derniers articles ajoutés dans notre boutique en ligne :</p>';
-		
+	$_SESSION['articles'] = array();
 	$derniersAjouts = array(
 		array(	'id' => 42, 
 				'auteurs' => array(	array('prenom' => 'George', 'nom' => 'Orwell')), 

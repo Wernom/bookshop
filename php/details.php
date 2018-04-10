@@ -101,31 +101,44 @@ function ms_control_get (){
 	return $valueQ;
 }
 
-
+/**
+ *	Affichage d'un livre.
+ *
+ *	@param	array		$livre 		tableau associatif des infos sur un livre (id, auteurs(nom, prenom), titre, prix, pages, ISBN13, resumé, edWeb, edNom)
+ *	@param 	string 		$class		classe de l'élement div 
+ *  @param 	String		$prefix		Prefixe des chemins vers le répertoire images (usuellement "./" ou "../").
+ */
 function ms_afficher_detail($livre, $class, $prefix) {
-	echo 
-		'<h1>', $livre['titre'], '</h1>', 
-		'<div class="', $class, '">',  
-			'<a class="addToCart" href="#" title="Ajouter au panier"></a>',
-			'<a class="addToWishlist" href="#" title="Ajouter à la liste de cadeaux"></a>',
-			'<img src="', $prefix, 'images/livres/', $livre['id'], '.jpg" alt="', 
-			fd_protect_sortie($livre['titre']),'">',
-		'<br>',
-		'<strong>', fd_protect_sortie($livre['titre']), '</strong><br>';
-	$i = 0;
-	foreach ($livre['auteurs'] as $auteur) {
-		$supportLien = $class == 'bcResultat' ? "{$auteur['prenom']} {$auteur['nom']}" : "{$auteur['prenom']{0}}. {$auteur['nom']}";
-		if ($i > 0) {
-			echo ', ';
-		}
-		$i++;
-		echo '<a href="', $prefix, 'php/recherche.php?type=auteur&quoi=', urlencode($auteur['nom']), '">',fd_protect_sortie($supportLien), '</a>';
-	}	
-	echo	'<br>',
-			'Editeur : <a class="lienExterne" href="http://', fd_protect_sortie($livre['edWeb']), '" target="_blank">', fd_protect_sortie($livre['edNom']), '</a><br>',
-			'Prix : ', $livre['prix'], ' &euro;<br>',
-			'Pages : ', $livre['pages'], '<br>',
-			'ISBN13 : ', fd_protect_sortie($livre['ISBN13']), '<br>',
-			'Resumé : ', $livre['resume'], '</div>';
+	echo  
+		'<div class="', $class, '">', 
+			'<h1>', $livre['titre'], '</h1>', 
+			'<div>',
+				'<img src="', $prefix, 'images/livres/', $livre['id'], '.jpg" alt="', 
+				fd_protect_sortie($livre['titre']),'">',
+				'<br>',
+				'<div>',
+					'<a class="addToCart" href="#" title="Ajouter au panier"></a>',
+					'<a class="addToWishlist" href="#" title="Ajouter à la liste de cadeaux"></a>',
+					'Détails du livre : <br><br>',
+					'<strong>', fd_protect_sortie($livre['titre']), '</strong><br>';
+				$i = 0;
+				foreach ($livre['auteurs'] as $auteur) {
+					$supportLien = $class == 'bcResultat' ? "{$auteur['prenom']} {$auteur['nom']}" : "{$auteur['prenom']{0}}. {$auteur['nom']}";
+					if ($i > 0) {
+						echo ', ';
+					}
+					$i++;
+					echo '<a href="', $prefix, 'php/recherche.php?type=auteur&quoi=', urlencode($auteur['nom']), '">',fd_protect_sortie($supportLien), '</a>';
+				}	
+				echo	'<br>',
+					'Editeur : <a class="lienExterne" href="http://', fd_protect_sortie($livre['edWeb']), '" target="_blank">', fd_protect_sortie($livre['edNom']), '</a><br>',
+					'Prix : ', $livre['prix'], ' &euro;<br>',
+					'Pages : ', $livre['pages'], '<br>',
+					'ISBN13 : ', fd_protect_sortie($livre['ISBN13']), '<br>',
+				'</div>',
+			'</div>',
+			'<p>Resumé : <br>', fd_protect_sortie($livre['resume']), '</p></div>';
 }
+
+function ms_suivant
 ?>

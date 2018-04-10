@@ -379,6 +379,59 @@ __________________________________________________________________
 .bcResultat .addToCart, .bcResultat .addToWishlist{
 	right: 10px;
 }
+
+
+.Detail {
+	margin: 10px 80px;
+	position: relative;
+}
+
+.Detail div {
+	position: relative;
+}
+
+.Detail img {
+	border: solid 1px black;
+	float: left;
+	width: 200px;
+}
+
+.Detail h1 {
+	margin: 10px 0px 10px 10px;
+}
+
+.Detail div div{
+	position: relative;
+	margin: 0px 30px 10px 230px;
+	border: 1px solid black;
+	padding: 10px 55px 25px 10px;
+}
+
+.Detail p {
+	clear:both;
+	position: relative;
+	border: 1px solid black;
+	margin: 0px;
+	padding: 5px;
+}
+
+
+.Detail .addToCart {
+    visibility: visible;
+    top: 65px;
+    right: 6px;
+    width: 40px;
+    height: 40px;
+}
+
+.Detail .addToWishlist {
+    visibility: visible;
+    top: 110px;
+    right: 6px;
+    width: 40px;
+    height: 40px;
+}
+
 /*
 __________________________________________________________________
 					Formulaires
