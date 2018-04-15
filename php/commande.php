@@ -16,7 +16,7 @@ if(!isset($_SESSION['cliID'])){
     fd_redirige('login.php');
 }
 commande_contenu($_SESSION['cliID']);
-//fd_redirige($_SERVER['HTTP_REFERER']);
+fd_redirige($_SERVER['HTTP_REFERER']);
 ob_end_flush();
 
 /**
@@ -44,8 +44,6 @@ function commande_contenu($id){
     foreach ($_SESSION['cart'] as $key=>$value){
         $sql_compo_commandes .= "({$r['coID']}, $key, $value),";
     }
-    print_r2(substr($sql_compo_commandes, 0, -1));
-
     $sql = fd_bd_protect($bd, substr($sql_compo_commandes, 0, -1));
     $res = mysqli_query($bd,$sql) or fd_bd_erreur($bd,$sql);
 
