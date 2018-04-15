@@ -7,10 +7,8 @@ require_once '../php/bibli_bookshop.php';
 
 error_reporting(E_ALL); // toutes les erreurs sont capturées (utile lors de la phase de développement)
 
-
-//$_SESSION = array();
 fd_html_debut('BookShop | Panier', '../styles/bookshop.css');
-print_r2($_SESSION);
+
 
 fd_bookshop_enseigne_entete(isset($_SESSION['cliID']),'../');
 echo '<h1>Panier</h1>';
@@ -51,7 +49,6 @@ function panier_contenu(){
                         INNER JOIN aut_livre ON al_IDLivre = liID
                         INNER JOIN auteurs ON al_IDAuteur = auID
             $critere";
-        print_r2($sql);
 
         $res = mysqli_query($bd, $sql) or fd_bd_erreur($bd, $sql);
         $livre = array();
@@ -83,8 +80,10 @@ function panier_contenu(){
     }else{
         echo '<h3>Votre panier est vide.</h3>';
     }
+    if(isset($_SESSION['cart']) && count($_SESSION['cart']) > 0){
+        echo '<form style="text-align: center"><button  type="submit" formaction="commande.php">Commander</button></form>';
+    }
 
-    echo '<form style="text-align: center"><button  type="submit" formaction="commande.php">Commander</button></form>';
 }
 
 
