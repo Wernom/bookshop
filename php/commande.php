@@ -15,16 +15,15 @@ error_reporting(E_ALL);
 if(!isset($_SESSION['cliID'])){
     fd_redirige('login.php');
 }
-commande_contenu($_SESSION['cliID']);
+commande_contenu();
 fd_redirige($_SERVER['HTTP_REFERER']);
 ob_end_flush();
 
 /**
  * Enregistre la commande dans la base de donnée.
  *
- * @param  int $id identifiant du livre
  */
-function commande_contenu($id){
+function commande_contenu(){
     $bd = fd_bd_connect();
     $date = date('Y').date('m').date('d');
     $time = date('H').date('i');
