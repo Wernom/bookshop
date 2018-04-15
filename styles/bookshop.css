@@ -434,6 +434,40 @@ __________________________________________________________________
 
 /*
 __________________________________________________________________
+						Panier
+__________________________________________________________________
+*/
+div.Panier{
+	height: 100px;
+
+}
+
+table.Panier {
+	float: right;
+	border-collapse: collapse;
+	width: 60%;
+}
+
+table.Panier td, table.Panier th {
+	border: 1px solid #dddddd;
+	text-align: center;
+	padding: 8px;
+}
+
+table.Panier td:nth-child(even) {
+	background-color: #dddddd;
+}
+
+form.Panier textarea{
+	margin-bottom: -2px;
+	resize : none;
+	height: 20px;
+	width: 30px;
+	font-size: 15px;
+}
+
+/*
+__________________________________________________________________
 					Formulaires
 __________________________________________________________________
 */

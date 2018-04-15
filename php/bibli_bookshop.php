@@ -106,7 +106,7 @@ function fd_afficher_livre($livre, $class, $prefix) {
 	echo 
 		'<div class="', $class, '">', 
 			// TODO : à modifier pour le projet  
-			'<a class="addToCart" href="#" title="Ajouter au panier"></a>',
+			'<a class="addToCart" href="',$prefix,'php/ajout_panier.php?id=',$livre['id'],'" title="Ajouter au panier"></a>',
 			'<a class="addToWishlist" href="#" title="Ajouter à la liste de cadeaux"></a>',
 			'<a href="', $prefix, 'php/details.php?article=', $livre['id'], '" title="Voir détails"><img src="', $prefix, 'images/livres/', $livre['id'], '_mini.jpg" alt="', 
 			fd_protect_sortie($livre['titre']),'"></a>';
@@ -146,7 +146,7 @@ function fd_afficher_livre($livre, $class, $prefix) {
  * 	@return array pages du site
  */
 function get_pages_bookshop() {
-	return array('index.php', 'login.php', 'inscription.php', 'deconnexion.php', 'recherche.php', 'presentation.html');
+	return array('index.php', 'login.php', 'inscription.php', 'deconnexion.php', 'recherche.php', 'presentation.html', 'panier.php', 'article.php', 'compte_utilisateur.php', 'recapitulatif.php', 'liste_veux.php');
 }
 
 

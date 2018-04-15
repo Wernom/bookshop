@@ -22,7 +22,7 @@ if (isset($_SESSION['cliID'])){
         } // si la page appelante n'appartient pas à notre site
         else if (! in_array($nom_page, get_pages_bookshop())){
             $page = '../index.php';
-        }  
+        }
     }
     fd_redirige($page);
 }
