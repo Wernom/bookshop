@@ -4,6 +4,6 @@ require_once 'bibli_generale.php';
 // Reprise de la session
 session_start();
 
-// Arrêt de la session et redirection vers index.php
+// Arret de la session et redirection vers index.php
 fd_exit_session();
 ?>

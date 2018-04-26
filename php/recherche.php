@@ -54,9 +54,17 @@ function fdl_contenu($valueType, $valueQuoi) {
 					'<option value="auteur" ', $valueType == 'auteur' ? 'selected' : '', '>auteurs</option>', 
 					'<option value="titre" ', $valueType == 'titre' ? 'selected' : '','>titre</option>', 
 				'</select>', 
-			'<input type="submit" value="Rechercher" name="btnRechercher"></p></form>'; 
-	
-	if (! $_GET && ! $_POST){
+			'<input type="submit" value="Rechercher" name="btnRechercher"></p></form>';
+
+
+	if (! $_GET && ! $_POST ){
+        if(isset($_SESSION['livre'])){
+            foreach ($_SESSION['livre'] as $value){
+                fd_afficher_livre($value, 'bcResultat', '../');
+			}
+
+            return;
+        }
         return; // ===> Fin de la fonction (ni soumission du formulaire, ni query string)
     }
 	if ( mb_strlen($valueQuoi, 'UTF-8') < 2){
@@ -68,14 +76,18 @@ function fdl_contenu($valueType, $valueQuoi) {
 	
 	// ouverture de la connexion, requête
 	$bd = fd_bd_connect();
-	
-	$q = fd_bd_protect($bd, $valueQuoi); 
+
+	$q = fd_bd_protect($bd, $valueQuoi);
+
+
+
+
 	
 	if ($valueType == 'auteur') {
         $critere = " WHERE liID in (SELECT al_IDLivre FROM aut_livre INNER JOIN auteurs ON al_IDAuteur = auID WHERE auNom LIKE '%$q%')";
 	} 
 	else {
-		$critere = " WHERE liTitre LIKE '%$q%'";	
+		$critere = " WHERE liTitre LIKE '%$q%'";
 	}
 
 	$sql = 	"SELECT liID, liTitre, liPrix, liPages, liISBN13, edNom, edWeb, auNom, auPrenom 
@@ -85,12 +97,15 @@ function fdl_contenu($valueType, $valueQuoi) {
 			$critere";
 
 	$res = mysqli_query($bd, $sql) or fd_bd_erreur($bd,$sql);
-
+	$livre=array();
 	$lastID = -1;
-	$_SESSION['articles'] = array();
+    $_SESSION['articles'] = array();
+    $_SESSION['livre'] = array();
+
 	while ($t = mysqli_fetch_assoc($res)) {
 		if ($t['liID'] != $lastID) {
 			if ($lastID != -1) {
+                $_SESSION['livre'][] = $livre;
 				fd_afficher_livre($livre, 'bcResultat', '../');	
 			}
 			$lastID = $t['liID'];
@@ -113,7 +128,7 @@ function fdl_contenu($valueType, $valueQuoi) {
     // libération des ressources
 	mysqli_free_result($res);
 	mysqli_close($bd);
-    
+    $_SESSION['livre'][] = $livre;
 	if ($lastID != -1) {
 		fd_afficher_livre($livre, 'bcResultat', '../');	
 	}
@@ -129,7 +144,7 @@ function fdl_contenu($valueType, $valueQuoi) {
  *
  * @global  array     $_GET
  *
- * @return            partie du nom de l'auteur à rechercher            
+ * @return string           partie du nom de l'auteur à rechercher
  */
 function fdl_control_get (){
 	(count($_GET) != 2) && fd_exit_session();
@@ -151,7 +166,7 @@ function fdl_control_get (){
  * @param   string    $valueT   type de recherche (auteur ou titre)
  * @global  array     $_POST
  *
- * @return            partie du nom de l'auteur ou du titre à rechercher            
+ * @return  string          partie du nom de l'auteur ou du titre à rechercher
  */
 function fdl_control_post (&$valueT){
 	(count($_POST) != 3) && fd_exit_session();

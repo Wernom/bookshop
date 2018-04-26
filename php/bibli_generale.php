@@ -153,7 +153,7 @@ function fd_bd_erreur($bd, $sql) {
  *		- les caractères ayant une signification spéciales en HTML (<, >, ...)
  *		- les caractères accentués
  *
- *	@param	string 	$text	la chaine à protéger	
+ *	@param	string 	$str	la chaine à protéger
  * 	@return string 	la chaîne protégée
  */
 function fd_protect_sortie($str) {
@@ -338,6 +338,14 @@ function url_get_nom_fichier($url){
         $nom = mb_substr($nom, 0, $pos, 'UTF-8');
     }
     return $nom;
+}
+
+/**
+ * Affiche de facon claire le contenue d'une variable.
+ * @param mixed $data information à afficher
+ */
+function print_r2($data){
+    echo'<pre>',print_r($data),'</pre>';
 }
 
 ?>
