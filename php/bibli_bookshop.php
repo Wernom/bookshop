@@ -107,7 +107,7 @@ function fd_afficher_livre($livre, $class, $prefix) {
 		'<div class="', $class, '">', 
 			// TODO : à modifier pour le projet  
 			'<a class="addToCart" href="',$prefix,'php/ajout_panier.php?id=',$livre['id'],'" title="Ajouter au panier"></a>',
-			'<a class="addToWishlist" href="#" title="Ajouter à la liste de cadeaux"></a>',
+			'<a class="addToWishlist" href="',$prefix,'php/ajout_liste.php?id=',$livre['id'],'" title="Ajouter à la liste de cadeaux"></a>',
 			'<a href="', $prefix, 'php/details.php?article=', $livre['id'], '" title="Voir détails"><img src="', $prefix, 'images/livres/', $livre['id'], '_mini.jpg" alt="', 
 			fd_protect_sortie($livre['titre']),'"></a>';
 	if ($class == 'bcResultat'){

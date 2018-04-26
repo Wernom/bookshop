@@ -407,6 +407,10 @@ __________________________________________________________________
 	padding: 10px 55px 25px 10px;
 }
 
+.Detail div:last-child img {
+	border: transparent;
+}
+
 .Detail p {
 	clear:both;
 	position: relative;

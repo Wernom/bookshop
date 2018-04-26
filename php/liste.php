@@ -1,25 +1,20 @@
 <?php
+
 ob_start('ob_gzhandler'); //démarre la bufferisation, compression du tampon si le client supporte gzip
 session_start();    // Lancement de la session
-
 require_once '../php/bibli_generale.php';
 require_once '../php/bibli_bookshop.php';
 
 error_reporting(E_ALL); // toutes les erreurs sont capturées (utile lors de la phase de développement)
-     
-$valueID = '';
 
-($_GET && $_POST) && fd_exit_session();
+fd_html_debut('BookShop | Liste des Voeux', '../styles/bookshop.css');
 
-if ($_GET){
-	$valueID = ms_control_get ();
-}
-
-fd_html_debut('BookShop | Article', '../styles/bookshop.css');
 
 fd_bookshop_enseigne_entete(isset($_SESSION['cliID']),'../');
+echo '<h1>Liste des Voeux</h1>';
 
-ms_contenu($valueID);
+
+ms_contenu_liste();
 
 fd_bookshop_pied();
 
@@ -27,17 +22,16 @@ fd_html_fin();
 
 ob_end_flush();
 
-
 // ----------  Fonctions locales au script ----------- //
 
 /**
- *	Contenu de la page : Photo du livre + Détails + Résumé
+ *	Contenu de la page : 
+ Liste des voeux : images des couvertures de livres affiché 5 par 5, résumé et détails du titre, prix, etc.
  *
- * @param    string    $valueID   L'ID de l'article à afficher
  * @global   array     $_GET
  * @session  array     $_SESSION
  */
-function ms_contenu($valueID) {
+function ms_contenu_liste() {
 	
 	if($valueID == ''){
 		echo '<p><strong>Aucun livre à afficher</strong></p>';
@@ -118,7 +112,7 @@ function ms_afficher_detail($livre, $class, $prefix) {
 				'<br>',
 				'<div>',
 					'<a class="addToCart" href="',$prefix,'php/ajout_panier.php?id=',$livre['id'],'" title="Ajouter au panier"></a>',
-					'<a class="addToWishlist" href="',$prefix,'php/ajout_liste.php?id=',$livre['id'],'" title="Ajouter à la liste de cadeaux"></a>',
+					'<a class="addToWishlist" href="#" title="Ajouter à la liste de cadeaux"></a>',
 					'Détails du livre : <br><br>',
 					'<strong>', fd_protect_sortie($livre['titre']), '</strong><br>';
 				$i = 0;
@@ -138,6 +132,7 @@ function ms_afficher_detail($livre, $class, $prefix) {
 				'</div>',
 			'</div>',
 			'<p>Resumé : <br>', fd_protect_sortie($livre['resume']), '</p>',
+		'</div>',
 		'<div>';
 	$nb_articles = count($_SESSION['articles']);
 	foreach($_SESSION['articles'] as $key => $articles){
@@ -152,7 +147,6 @@ function ms_afficher_detail($livre, $class, $prefix) {
 		}
 	}
 	echo
-		'</div>',
 		'</div>';
 }
 
