@@ -104,6 +104,7 @@ function fdl_contenu($valueType, $valueQuoi) {
 	while ($t = mysqli_fetch_assoc($res)) {
 		if ($t['liID'] != $lastID) {
 			if ($lastID != -1) {
+				$_SESSION['livre'][] = $livre;
 				fd_afficher_livre($livre, 'bcResultat', '../');	
 			}
 			$lastID = $t['liID'];
