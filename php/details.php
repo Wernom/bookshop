@@ -137,8 +137,23 @@ function ms_afficher_detail($livre, $class, $prefix) {
 					'ISBN13 : ', fd_protect_sortie($livre['ISBN13']), '<br>',
 				'</div>',
 			'</div>',
-			'<p>Resumé : <br>', fd_protect_sortie($livre['resume']), '</p></div>';
+			'<p>Resumé : <br>', fd_protect_sortie($livre['resume']), '</p>',
+		'</div>';
+	print_r($_SESSION['articles']);
+	foreach($_SESSION['articles'] as $articles){
+	}
+	/*while ($livre_detail = current($_SESSION['auteurs'])) {
+		if ($livre_detail == $livre['id']) {
+			echo key($_SESSION['auteurs']);
+		}
+		next($array);
+	}*/
+	
+	echo
+		'<div>',
+			'<a href="', $prefix, 'php/details.php?article=', $_SESSION['articles'][0] , '" ><img id="gauche" src="', $prefix, 'images/ajouts/precedent.jpg" alt="precedent"></a>',
+			'<img id="droite" src="', $prefix, 'images/ajouts/suivant.jpg" alt="suivant">',
+		'</div>';
 }
 
-function ms_suivant
 ?>
