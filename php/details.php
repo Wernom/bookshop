@@ -137,22 +137,24 @@ function ms_afficher_detail($livre, $class, $prefix) {
 					'ISBN13 : ', fd_protect_sortie($livre['ISBN13']), '<br>',
 				'</div>',
 			'</div>',
-			'<p>Resumé : <br>', fd_protect_sortie($livre['resume']), '</p>',
-		'<div>';
-	$nb_articles = count($_SESSION['articles']);
-	foreach($_SESSION['articles'] as $key => $articles){
-		if($articles == $livre['id']){
-			if($key != 0){
-				echo
-					'<a href="', $prefix, 'php/details.php?article=', $_SESSION['articles'][($key-1)] , '" ><img id="gauche" src="', $prefix, 'images/ajouts/precedent.jpg" alt="precedent"></a>';
-			}if($key != $nb_articles - 1){
-				echo
-					'<a href="', $prefix, 'php/details.php?article=', $_SESSION['articles'][($key+1)] , '" ><img id="droite" src="', $prefix, 'images/ajouts/suivant.jpg" alt="suivant"></a>';
+			'<p>Resumé : <br>', fd_protect_sortie($livre['resume']), '</p>';
+	if(!isset($_SESSION['article'])){
+		echo '<div>';
+		$nb_articles = count($_SESSION['articles']);
+		foreach($_SESSION['articles'] as $key => $articles){
+			if($articles == $livre['id']){
+				if($key != 0){
+					echo
+						'<a href="', $prefix, 'php/details.php?article=', $_SESSION['articles'][($key-1)] , '" ><img id="gauche" src="', $prefix, 'images/ajouts/precedent.jpg" alt="precedent"></a>';
+				}if($key != $nb_articles - 1){
+					echo
+						'<a href="', $prefix, 'php/details.php?article=', $_SESSION['articles'][($key+1)] , '" ><img id="droite" src="', $prefix, 'images/ajouts/suivant.jpg" alt="suivant"></a>';
+				}
 			}
 		}
+		echo '</div>';
 	}
 	echo
-		'</div>',
 		'</div>';
 }
 
