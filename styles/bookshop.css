@@ -538,7 +538,21 @@ __________________________________________________________________
 }
 
 .Liste div div:hover .addToCart {
+	right: 5px;
+	visibility: visible;
+}
+
+.Liste div div .delete {
+	position: absolute;
+	visibility: hidden;
+	top: 80px;
 	right: 10px;
+	width: 30px;
+	height: 30px;
+	background: url(../images/ajouts/croix.png) no-repeat;
+}
+
+.Liste div div:hover .delete {
 	visibility: visible;
 }
 /*

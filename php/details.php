@@ -150,10 +150,10 @@ function ms_afficher_detail($livre, $class, $prefix) {
 			if($articles == $livre['id']){
 				if($key != 0){
 					echo
-						'<a href="', $prefix, 'php/details.php?article=', $_SESSION['articles'][($key-1)] , '" ><img id="gauche" src="', $prefix, 'images/ajouts/precedent.jpg" alt="precedent"></a>';
+						'<a href="', $prefix, 'php/details.php?article=', $_SESSION['articles'][($key-1)] , '" ><img id="gauche" src="', $prefix, 'images/ajouts/precedent.jpg" alt="precedent" height="35" width="30"></a>';
 				}if($key != $nb_articles - 1){
 					echo
-						'<a href="', $prefix, 'php/details.php?article=', $_SESSION['articles'][($key+1)] , '" ><img id="droite" src="', $prefix, 'images/ajouts/suivant.jpg" alt="suivant"></a>';
+						'<a href="', $prefix, 'php/details.php?article=', $_SESSION['articles'][($key+1)] , '" ><img id="droite" src="', $prefix, 'images/ajouts/suivant.jpg" alt="suivant" height="35" width="30"></a>';
 				}
 			}
 		}

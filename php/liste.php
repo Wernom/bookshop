@@ -7,25 +7,40 @@ require_once '../php/bibli_bookshop.php';
 
 error_reporting(E_ALL); // toutes les erreurs sont capturées (utile lors de la phase de développement)
 
+if (!isset($_SESSION['cliID'])){
+    fd_redirige('../index.php');
+}
+$idClient = $_SESSION['cliID'];
+$clientConnecte = TRUE;
 $nbLivre = 0;
 
-($_GET && $_POST) && fd_exit_session();
-
 if ($_GET){
-	$nbLivre = ms_control_get ();
+	$nbLivre = ms_control_get_livre();
+	delete($nbLivre);
 }
 
-fd_html_debut('BookShop | Liste des Voeux', '../styles/bookshop.css');
+if ($_POST){
+	print_r2($_POST);
+	$idClient = ms_control_post_client();
+}
+
+fd_html_debut('BookShop | Liste de cadeaux', '../styles/bookshop.css');
 
 
 fd_bookshop_enseigne_entete(isset($_SESSION['cliID']),'../');
-echo '<h1>Liste des Voeux</h1>';
 
 if($nbLivre == 0){
-	ms_recup_liste();
+	ms_recup_liste($idClient);
 }
 
-ms_afficher_liste($_SESSION['Liste'], 'Liste', '../', $nbLivre);
+if($idClient == $_SESSION['cliID']){
+	echo '<h1>Votre liste de cadeaux</h1>';
+}else{
+	echo '<h1>Liste de voeux de votre recherche</h1>'; //on ne met pas le nom pour ne pas donner des informations sur nos utilisateurs.
+	$clientConnecte = FALSE;
+}
+
+ms_afficher_liste($_SESSION['Liste'], 'Liste', '../', $nbLivre, $clientConnecte, $idClient);
 
 
 fd_bookshop_pied();
@@ -39,19 +54,19 @@ ob_end_flush();
 /**
  *	Récupère la liste de voeux d'un client et la met dans la variable globale $_SESSION['Liste']
  *
- * @session  array     $_SESSION
+ * 	@param		int		$idClient	l'identifiant du client connecté ou du client recherché
+ *  @session  	array   $_SESSION
  */
-function ms_recup_liste() {
+function ms_recup_liste($idClient) {
 	
 	$bd = fd_bd_connect();
-	$valueID = $_SESSION['cliID'];
 	$sql = 	"SELECT liID, liTitre, liPrix, liPages, liResume, edNom, auNom, auPrenom 
 			FROM livres INNER JOIN editeurs ON liIDEditeur = edID 
 						INNER JOIN listes ON listIDLivre = liID
 						INNER JOIN aut_livre ON al_IDLivre = liID 
 						INNER JOIN auteurs ON al_IDAuteur = auID
 						
-			WHERE listIDClient = $valueID";
+			WHERE listIDClient = $idClient";
 
 	$res = mysqli_query($bd, $sql) or fd_bd_erreur($bd,$sql);
 
@@ -90,9 +105,13 @@ function ms_recup_liste() {
  *  @param 	String		$prefix		Prefixe des chemins vers le répertoire images (usuellement "./" ou "../")
  *  @session  array     $_SESSION
  */
-function ms_afficher_liste($livre, $class, $prefix, $nbLivre) {
+function ms_afficher_liste($livre, $class, $prefix, $nbLivre, $clientConnecte, $idClient) {
 	if(count($_SESSION['Liste']) == 0){
-		echo '<h3>Vous n\'avez pas de livre dans votre liste</h3>';
+		if($clientConnecte){
+			echo '<h3>Vous n\'avez pas de livre dans votre liste</h3>';
+		}else{
+			echo '<h3>L\'utilisateur n\'a pas de livre dans sa liste</h3>';
+		}
 		return;
 	}
 	$count = 1;
@@ -105,7 +124,7 @@ function ms_afficher_liste($livre, $class, $prefix, $nbLivre) {
 			echo
 				'<div>';
 		}
-		ms_afficher_livre($data, $class, $prefix, $nbLivre, $count);
+		ms_afficher_livre($data, $class, $prefix, $nbLivre, $clientConnecte);
 		if(($count % 3) == 0 ){
 			echo
 				'</div>';
@@ -121,6 +140,21 @@ function ms_afficher_liste($livre, $class, $prefix, $nbLivre) {
 	}
 			echo 
 				'</div>';
+	if($count + $nbLivre < count($livre)){
+		echo
+			'<a href="', $prefix, 'php/liste.php?nbListe=', ($count + $nbLivre), '&cliID=', $idClient,'" ><img id="droite" src="', $prefix, 'images/ajouts/suivant.jpg" alt="suivant" height="35" width="30"></a>';
+	}
+	if($nbLivre != 0 && $nbLivre > 14){
+		echo 
+		'<a href="', $prefix, 'php/liste.php?nbListe=', ($nbLivre - 15) , '&cliID=', $idClient,'" ><img id="gauche" src="', $prefix, 'images/ajouts/precedent.jpg" alt="precedent" height="35" width="30"></a>';
+	}elseif ($nbLivre != 0){
+		echo 
+		'<a href="', $prefix, 'php/liste.php?nbListe=0" ><img id="gauche" src="', $prefix, 'images/ajouts/precedent.jpg" alt="precedent" height="35" width="30"></a>';
+	}
+
+	echo '<form action="recherche.php" method="post">',
+			'<p class="centered">Rechercher par adresse e-mail <input type="text" name="quoi" value=" ">', 
+			'<input type="submit" value="Rechercher" name="btnRechercher"></p></form>';
 }
 
 /**
@@ -131,14 +165,21 @@ function ms_afficher_liste($livre, $class, $prefix, $nbLivre) {
  *  @param 	String		$prefix		Prefixe des chemins vers le répertoire images (usuellement "./" ou "../")	
  * 	@session  array     $_SESSION
  */
-function ms_afficher_livre($livre, $class, $prefix){
+function ms_afficher_livre($livre, $class, $prefix, $nbLivre, $clientConnecte){
 	echo 
-	'<div>',
-		'<img src="', $prefix, 'images/livres/', $livre['id'], '.jpg" alt="', 
-		fd_protect_sortie($livre['titre']),'">',
-		'<a class="addToCart" href="',$prefix,'php/ajout_panier.php?id=',$livre['id'],'" title="Ajouter au panier"></a>',
-		'<span>',
-		'<strong>', fd_protect_sortie($livre['titre']), '</strong><br>';
+		'<div>',
+			'<a href="', $prefix, 'php/details.php?article=', $livre['id'], '" title="Voir détails">','
+			<img src="', $prefix, 'images/livres/', $livre['id'], '.jpg" alt="', 
+			fd_protect_sortie($livre['titre']),'">',
+			'</a>',
+			'<a class="addToCart" href="',$prefix,'php/ajout_panier.php?id=',$livre['id'],'" title="Ajouter au panier"></a>';
+		if($clientConnecte){
+			echo
+			'<a class="delete" href="',$prefix,'php/liste.php?nbListe=',$nbLivre,'&liID=',$livre['id'],'" title="Supprimer de la liste"></a>';
+		}
+			echo
+			'<span>',
+			'<strong>', fd_protect_sortie($livre['titre']), '</strong><br>';
 		$i = 0;
 		foreach ($livre['auteurs'] as $auteur) {
 			$supportLien = $class == 'bcResultat' ? "{$auteur['prenom']} {$auteur['nom']}" : "{$auteur['prenom']{0}}. {$auteur['nom']}";
@@ -163,22 +204,72 @@ function ms_afficher_livre($livre, $class, $prefix){
  *
  * En cas d'informations invalides, la session de l'utilisateur est arrêtée et il est redirigé vers la page index.php
  *
- * @global  array     $_GET
+ * @global  array	$_GET
  *
- * @return            L'ID du livre à afficher            
+ * @return	int		L'ID du livre à afficher            
  */
-function ms_control_get (){
-	(count($_GET) != 1) && fd_exit_session();
+function ms_control_get_livre(){
+	(count($_GET) > 2) && fd_exit_session();
 	
-	(! isset($_GET['nbListe'])) && fd_exit_session();
+	(!isset($_GET['nbListe'])) && fd_exit_session();
 	
-    $valueQ = trim($_GET['nbListe']);
-    (! is_numeric($valueQ)) && fd_exit_session(); 
+    $valueL = trim($_GET['nbListe']);
+    (! is_numeric($valueL)) && fd_exit_session(); 
     
-    $notags = strip_tags($valueQ);
-    (mb_strlen($notags, 'UTF-8') != mb_strlen($valueQ, 'UTF-8')) && fd_exit_session();
+    $notags = strip_tags($valueL);
+    (mb_strlen($notags, 'UTF-8') != mb_strlen($valueL, 'UTF-8')) && fd_exit_session();
   
-	return $valueQ;
+	return $valueL;
+}
+
+function delete($nbLivre){
+	if(!isset($_GET['liID']) || !isset($_SESSION['Liste'])){
+		return;
+	}
+	$valueID = trim($_GET['liID']);
+    (!is_numeric($valueID)) && fd_exit_session(); 
+    $notags = strip_tags($valueID);
+    (mb_strlen($notags, 'UTF-8') != mb_strlen($valueID, 'UTF-8')) && fd_exit_session();
+	$bd = fd_bd_connect();
+	$idClient = $_SESSION['cliID'];
+	$sql = "SELECT listIDLivre 
+			FROM listes 
+			WHERE listIDClient=$idClient";
+	$res = mysqli_query($bd, $sql) or fd_bd_erreur($bd,$sql);
+	while ($t = mysqli_fetch_assoc($res)) {
+		if ($t['listIDLivre'] == $valueID) {
+			$sql2 = "DELETE FROM listes
+					 WHERE listIDLivre = $valueID
+					 AND listIDClient = $idClient";
+			$res2 = mysqli_query($bd, $sql2) or fd_bd_erreur($bd,$sql2);
+			ms_recup_liste($_SESSION['cliID']);
+		}
+	}
+	mysqli_free_result($res);
+	mysqli_close($bd);
+}
+
+function ms_control_post_client(){
+	(count($_POST) != 2) && fd_exit_session();
+	(! isset($_POST['btnRechercher']) || $_POST['btnRechercher'] != 'Rechercher') && fd_exit_session();
+	(! isset($_POST['email'])) && fd_exit_session();
+    $valueMail = trim($_POST['email']);
+    $notags = strip_tags($valueMail);
+	(mb_strlen($notags, 'UTF-8') != mb_strlen($valueMail, 'UTF-8')) && fd_exit_session();
+	$cliID = 0;
+	$bd = fd_bd_connect();
+	$sql = "SELECT cliEmail, cliID
+			FROM clients";
+	$res = mysqli_query($bd, $sql) or fd_bd_erreur($bd,$sql);
+	while ($t = mysqli_fetch_assoc($res)) {
+		if ($t['cliEmail'] == $valueMail) {
+			$cliID = $t['cliID'];
+		}
+	}
+	mysqli_free_result($res);
+	mysqli_close($bd);
+
+    return $cliID;
 }
 
 ?>
