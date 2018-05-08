@@ -117,8 +117,13 @@ function ms_afficher_detail($livre, $class, $prefix) {
 				fd_protect_sortie($livre['titre']),'">',
 				'<br>',
 				'<div>',
-					'<a class="addToCart" href="',$prefix,'php/ajout_panier.php?id=',$livre['id'],'" title="Ajouter au panier"></a>',
-					'<a class="addToWishlist" href="',$prefix,'php/ajout_liste.php?id=',$livre['id'],'" title="Ajouter à la liste de cadeaux"></a>',
+					'<a class="addToCart" href="',$prefix,'php/ajout_panier.php?id=',$livre['id'],'" title="Ajouter au panier"></a>';
+			if(!ms_isset_liste($livre['id'])){
+				echo
+					'<a class="addToWishlist" href="',$prefix,'php/ajout_liste.php?id=',$livre['id'],'" title="Ajouter à la liste de cadeaux"></a>';
+
+			}
+				echo
 					'Détails du livre : <br><br>',
 					'<strong>', fd_protect_sortie($livre['titre']), '</strong><br>';
 				$i = 0;

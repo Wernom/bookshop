@@ -45,7 +45,6 @@ function ms_recup_liste() {
 	
 	$bd = fd_bd_connect();
 	$valueID = $_SESSION['cliID'];
-	$q = fd_bd_protect($bd, $valueID); 
 	$sql = 	"SELECT liID, liTitre, liPrix, liPages, liResume, edNom, auNom, auPrenom 
 			FROM livres INNER JOIN editeurs ON liIDEditeur = edID 
 						INNER JOIN listes ON listIDLivre = liID
@@ -84,7 +83,7 @@ function ms_recup_liste() {
 
 
 /**
- *	Affichage d'un livre.
+ *	Affichage de la liste de voeux d'un utilisateur
  *
  *	@param	array		$livre 		tableau associatif des infos sur un livre (id, auteurs(nom, prenom), titre, prix, pages, ISBN13, resumé, edWeb, edNom)
  *	@param 	string 		$class		classe de l'élement div 
@@ -93,7 +92,7 @@ function ms_recup_liste() {
  */
 function ms_afficher_liste($livre, $class, $prefix, $nbLivre) {
 	if(count($_SESSION['Liste']) == 0){
-		echo 'Aucun Livre à afficher';
+		echo '<h3>Vous n\'avez pas de livre dans votre liste</h3>';
 		return;
 	}
 	$count = 1;
@@ -124,9 +123,17 @@ function ms_afficher_liste($livre, $class, $prefix, $nbLivre) {
 				'</div>';
 }
 
-function ms_afficher_livre($livre, $class, $prefix, $nbLivre, $count){
+/**
+ *	Affichage d'un livre dans la liste des voeux d'un utilisateur
+ *
+ *	@param	array		$livre 		tableau associatif des infos sur un livre (id, auteurs(nom, prenom), titre, prix, pages, ISBN13, resumé, edWeb, edNom)
+ *	@param 	string 		$class		classe de l'élement div 
+ *  @param 	String		$prefix		Prefixe des chemins vers le répertoire images (usuellement "./" ou "../")	
+ * 	@session  array     $_SESSION
+ */
+function ms_afficher_livre($livre, $class, $prefix){
 	echo 
-	'<div id="', $count,'">',
+	'<div>',
 		'<img src="', $prefix, 'images/livres/', $livre['id'], '.jpg" alt="', 
 		fd_protect_sortie($livre['titre']),'">',
 		'<a class="addToCart" href="',$prefix,'php/ajout_panier.php?id=',$livre['id'],'" title="Ajouter au panier"></a>',

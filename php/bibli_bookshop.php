@@ -106,8 +106,12 @@ function fd_afficher_livre($livre, $class, $prefix) {
 	echo 
 		'<div class="', $class, '">', 
 			// TODO : à modifier pour le projet  
-			'<a class="addToCart" href="',$prefix,'php/ajout_panier.php?id=',$livre['id'],'" title="Ajouter au panier"></a>',
-			'<a class="addToWishlist" href="',$prefix,'php/ajout_liste.php?id=',$livre['id'],'" title="Ajouter à la liste de cadeaux"></a>',
+			'<a class="addToCart" href="',$prefix,'php/ajout_panier.php?id=',$livre['id'],'" title="Ajouter au panier"></a>';
+	if(!ms_isset_liste($livre['id'])){
+		echo
+			'<a class="addToWishlist" href="',$prefix,'php/ajout_liste.php?id=',$livre['id'],'" title="Ajouter à la liste de cadeaux"></a>';
+	}
+		echo
 			'<a href="', $prefix, 'php/details.php?article=', $livre['id'], '" title="Voir détails"><img src="', $prefix, 'images/livres/', $livre['id'], '_mini.jpg" alt="', 
 			fd_protect_sortie($livre['titre']),'"></a>';
 	if ($class == 'bcResultat'){
@@ -149,6 +153,34 @@ function get_pages_bookshop() {
 	return array('index.php', 'login.php', 'inscription.php', 'deconnexion.php', 'recherche.php', 'presentation.html', 'panier.php', 'article.php', 'compte_utilisateur.php', 'recapitulatif.php', 'liste_veux.php');
 }
 
+/**
+ *	Fonction vérifiant si lelivre est déjà présent dans la liste de voeux d'un utilisateur 
+ *	Renvoie TRUE si le livre est présent, FALSE s'il ne l'est pas ou si l'utilisateur n'est pas connecté
+ *
+ *  @param 		int		$id		L'identifiant du livre à chercher dans la liste
+ *	@session	array	$_SESSION
+ */
+function ms_isset_liste($id) {
+	if(isset($_SESSION['cliID'])){
+		$valueID = $_SESSION['cliID'];
+	}else{
+		return FALSE;
+	}
+	$bd = fd_bd_connect();
+	$id = fd_bd_protect($bd, $id); 
+	$sql = "SELECT * 
+			FROM listes 
+			WHERE listIDLivre=$id";
+	$res = mysqli_query($bd, $sql) or fd_bd_erreur($bd,$sql);
+	if(mysqli_num_rows($res) > 0){
+		mysqli_free_result($res);
+		mysqli_close($bd);
+		return TRUE;
+	}
+	mysqli_free_result($res);
+	mysqli_close($bd);
+	return FALSE;
+}
 
 
 ?>
