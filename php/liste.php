@@ -7,7 +7,7 @@ require_once '../php/bibli_bookshop.php';
 
 error_reporting(E_ALL); // toutes les erreurs sont capturées (utile lors de la phase de développement)
 
-$nbLivre = '';
+$nbLivre = 0;
 
 ($_GET && $_POST) && fd_exit_session();
 
@@ -102,47 +102,52 @@ function ms_afficher_liste($livre, $class, $prefix, $nbLivre) {
 		if($key < $nbLivre){
 			continue;
 		}
-		echo 
-			'<div id="', $count,'">',
-				'<img src="', $prefix, 'images/livres/', $data['id'], '.jpg" alt="', 
-				fd_protect_sortie($data['titre']),'">',
-			'</div>';
-		++$count;
-		if($count == 6){
+		if(($count % 3) == 1){
+			echo
+				'<div>';
+		}
+		ms_afficher_livre($data, $class, $prefix, $nbLivre, $count);
+		if(($count % 3) == 0 ){
+			echo
+				'</div>';
+		}
+		if($count == 15){
 			break;
 		}
+		++$count;
 	}
-		echo '</div>';
+	if($nbLivre % 3 != 0){
+				echo 
+					'</div>';
+	}
+			echo 
+				'</div>';
+}
 
-	/*echo  
-		'<div class="', $class, '">', 
-			'<h1>', $livre['titre'], '</h1>', 
-			'<div>',
-				'<img src="', $prefix, 'images/livres/', $livre['id'], '.jpg" alt="', 
-				fd_protect_sortie($livre['titre']),'">',
-				'<br>',
-				'<div>',
-					'<a class="addToCart" href="',$prefix,'php/ajout_panier.php?id=',$livre['id'],'" title="Ajouter au panier"></a>',
-					'<a class="addToWishlist" href="#" title="Ajouter à la liste de cadeaux"></a>',
-					'Détails du livre : <br><br>',
-					'<strong>', fd_protect_sortie($livre['titre']), '</strong><br>';
-				$i = 0;
-				foreach ($livre['auteurs'] as $auteur) {
-					$supportLien = $class == 'bcResultat' ? "{$auteur['prenom']} {$auteur['nom']}" : "{$auteur['prenom']{0}}. {$auteur['nom']}";
-					if ($i > 0) {
-						echo ', ';
-					}
-					$i++;
-					echo '<a href="', $prefix, 'php/recherche.php?type=auteur&quoi=', urlencode($auteur['nom']), '">',fd_protect_sortie($supportLien), '</a>';
-				}	
-				echo	'<br>',
-					'Editeur : ', fd_protect_sortie($livre['edNom']), '<br>',
-					'Prix : ', $livre['prix'], ' &euro;<br>',
-					'Pages : ', $livre['pages'], '<br>',
-				'</div>',
-			'</div>',
-			'<p>Resumé : <br>', fd_protect_sortie($livre['resume']), '</p>',
-		'</div>';*/
+function ms_afficher_livre($livre, $class, $prefix, $nbLivre, $count){
+	echo 
+	'<div id="', $count,'">',
+		'<img src="', $prefix, 'images/livres/', $livre['id'], '.jpg" alt="', 
+		fd_protect_sortie($livre['titre']),'">',
+		'<a class="addToCart" href="',$prefix,'php/ajout_panier.php?id=',$livre['id'],'" title="Ajouter au panier"></a>',
+		'<span>',
+		'<strong>', fd_protect_sortie($livre['titre']), '</strong><br>';
+		$i = 0;
+		foreach ($livre['auteurs'] as $auteur) {
+			$supportLien = $class == 'bcResultat' ? "{$auteur['prenom']} {$auteur['nom']}" : "{$auteur['prenom']{0}}. {$auteur['nom']}";
+			if ($i > 0) {
+				echo ', ';
+			}
+			$i++;
+			echo '<a href="', $prefix, 'php/recherche.php?type=auteur&quoi=', urlencode($auteur['nom']), '">',fd_protect_sortie($supportLien), '</a>';
+		}
+		echo 
+			'<br>',
+			'Editeur : <a class="lienExterne" href="http://', fd_protect_sortie($livre['edWeb']), '" target="_blank">', fd_protect_sortie($livre['edNom']), '</a><br>',
+			'Prix : ', $livre['prix'], ' &euro;<br>';
+	echo
+		'</span>',
+	'</div>';
 }
 
 
