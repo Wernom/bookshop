@@ -13,7 +13,7 @@ $valueQuoi = '';
 
 ($_GET && $_POST) && fd_exit_session();
 if ($_GET){
-	$valueQuoi = control_get();
+	control_get ();
 }
 else if ($_POST){
 	$valueQuoi = fdl_control_post ($valueType);
@@ -57,9 +57,10 @@ function fdl_contenu($valueType, $valueQuoi) {
 			'<input type="submit" value="Rechercher" name="btnRechercher"></p></form>';
 
 
-	if (! $_POST && isset($_GET['page'])){
+	if (! $_POST ){
         if(isset($_SESSION['livre'])){
             pagination();
+
             return;
         }
         return; // ===> Fin de la fonction (ni soumission du formulaire, ni query string)
@@ -112,6 +113,7 @@ function fdl_contenu($valueType, $valueQuoi) {
 							'titre' => $t['liTitre'],
 							'edNom' => $t['edNom'],
 							'edWeb' => $t['edWeb'],
+							//'resume' => $t['liResume'],
 							'pages' => $t['liPages'],
 							'ISBN13' => $t['liISBN13'],
 							'prix' => $t['liPrix'],
@@ -146,24 +148,9 @@ function fdl_contenu($valueType, $valueQuoi) {
  *
  */
 function control_get (){
-    if(count($_GET) == 1){
-        !isset($_GET['page']) && fd_exit_session();
-        (!is_numeric($_GET['page'])) && fd_exit_session();
-        return $_GET['page'];
-    }else{
-        (count($_GET) != 2) && fd_exit_session();
-        (! isset($_GET['type']) || $_GET['type'] != 'auteur') && fd_exit_session();
-        (! isset($_GET['quoi'])) && fd_exit_session();
-
-        $valueQ = trim($_GET['quoi']);
-        $notags = strip_tags($valueQ);
-        (mb_strlen($notags, 'UTF-8') != mb_strlen($valueQ, 'UTF-8')) && fd_exit_session();
-
-        return $valueQ;
-    }
-
-
-
+    (count($_GET) != 1) && fd_exit_session();
+    !isset($_GET['page']) && fd_exit_session();
+    (!is_numeric($_GET['page'])) && fd_exit_session();
 
 }
 

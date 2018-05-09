@@ -29,12 +29,13 @@ ob_end_flush();
 function ms_contenu() {
 	
 	echo '<h1>Récapitulatif de vos commandes</h1>'; 
-	
+	$id = $_SESSION['cliID'];
 	$bd = fd_bd_connect();
 
 	$sql = 	"SELECT liID, liTitre, liPrix, ccQuantite, coID, coDate, coHeure
 			FROM livres INNER JOIN compo_commande ON liID = ccIDLivre
-						INNER JOIN commandes ON ccIDCommande = coID ";
+                        INNER JOIN commandes ON ccIDCommande = coID 
+            WHERE coIDClient = $id";
 
 	$res = mysqli_query($bd, $sql) or fd_bd_erreur($bd,$sql);
 	$commandes=array();
@@ -77,8 +78,8 @@ function ms_afficher_commande($commande, $prefix){
     echo 
     '<div class="Commande">',
         '<h2>Commande effectuée le ', 
-        substr($commande['date'], 6, 7), '/', substr($commande['date'], 4, 5), '/',  substr($commande['date'],0, 3),
-        ' à ', substr($commande['heure'], 0, 1), 'H', substr($commande['heure'], 2, 3),'</h2>';
+        substr($commande['date'], 6, 2), '/', substr($commande['date'], 4, 2), '/',  substr($commande['date'],0, 4),
+        ' à ', substr($commande['heure'], 0, 2), 'H', substr($commande['heure'], 2, 2),'</h2>';
         //print_r2($commande['livres']);
         foreach($commande['livres'] as $livre){
             $cout = $livre['prix']*$livre['quantite'];
