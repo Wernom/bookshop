@@ -22,8 +22,8 @@ if (!isset($_SESSION['cliID'])){
     fd_redirige($page);
 }
 
-$err = isset($_POST['btnSinscrire']) ? fdl_inscription() : array();
-
+$err = isset($_POST['btnValider']) ? fdl_inscription() : array();
+print_r2($err);
 fd_html_debut('BookShop | Compte', '../styles/bookshop.css');
 
 fd_bookshop_enseigne_entete(isset($_SESSION['cliID']),'../');
@@ -64,9 +64,9 @@ function fdl_contenu($err) {
 
     mysqli_free_result($res);
     mysqli_close($bd);
-    echo
-    '<H1>Votre Compte</H1>';
-    boutonHystoriqueCommande();
+    boutonHistoriqueCommande();
+    echo'<H1>Votre Compte</H1>';
+
 
     if (count($err) > 0) {
         echo '<p class="erreur">Votre inscription n\'a pas pu être réalisée à cause des erreurs suivantes : ';
@@ -74,7 +74,7 @@ function fdl_contenu($err) {
             echo '<br> - ', $v;
         }
         echo '</p>';
-    }else if(isset($_POST['btnSinscrire'])){
+    }else if(isset($_POST['btnValider'])){
         echo '<p class="ComptRequeteOK">Les modifications ont bien été enrgistré</p>';
     }
 
@@ -343,10 +343,10 @@ function fdl_inscription(){
 }
 
 /**
- * Affiche le bouton pour acceder à la page hystorique des commandes.
+ * Affiche le bouton pour acceder à la page historique des commandes.
  */
-function boutonHystoriqueCommande(){
-    echo '<button class="Compte" formaction="./recapitulatif.php">Hystorique des commandes</button>';
+function boutonHistoriqueCommande(){
+    echo '<button class="Compte" formaction="./recapitulatif.php">Historique des commandes</button>';
 }
 
 

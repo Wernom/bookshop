@@ -522,7 +522,7 @@ button.Compte{
     border-radius: 10px;
     display: inline-block;
     font-size: 16px;
-    margin: 0 0;
+    margin-top: -15px;
     -webkit-transition-duration: 0.4s; /* Safari */
     transition-duration: 0.4s;
     cursor: pointer;
