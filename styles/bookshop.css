@@ -510,7 +510,7 @@ __________________________________________________________________
 __________________________________________________________________
 */
 
-button.Compte{
+a.Compte{
     float: right;
     background-color: white;
     color: black;
@@ -528,7 +528,7 @@ button.Compte{
     cursor: pointer;
 }
 
-button.Compte:hover{
+a.Compte:hover{
     background-color: #FF9B37;
     color: white;
 }

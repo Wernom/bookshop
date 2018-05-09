@@ -346,7 +346,7 @@ function fdl_inscription(){
  * Affiche le bouton pour acceder à la page historique des commandes.
  */
 function boutonHistoriqueCommande(){
-    echo '<button class="Compte" formaction="./recapitulatif.php">Historique des commandes</button>';
+    echo '<a class="Compte" href="./recapitulatif.php">Historique des commandes</a>';
 }
 
 
