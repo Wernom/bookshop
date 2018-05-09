@@ -29,6 +29,8 @@ if(isset($_SESSION['cliID'])){
 
 $err = isset($_POST['btnSInscrire']) ? fdl_inscription() : array(); 
 
+$_SESSION['listeCadeau'] = array();
+
 fd_html_debut('BookShop | Inscription', '../styles/bookshop.css');
 
 fd_bookshop_enseigne_entete(false,'../');

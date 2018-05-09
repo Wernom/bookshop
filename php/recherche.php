@@ -149,7 +149,7 @@ function control_get (){
     if(count($_GET) == 1){
         !isset($_GET['page']) && fd_exit_session();
         (!is_numeric($_GET['page'])) && fd_exit_session();
-        return $_GET['page'];
+        return;
     }else{
         (count($_GET) != 2) && fd_exit_session();
         (! isset($_GET['type']) || $_GET['type'] != 'auteur') && fd_exit_session();
