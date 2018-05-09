@@ -20,10 +20,9 @@ if ($_GET){
 }
 
 if ($_POST){
-	print_r2($_POST);
-	$idClient = ms_control_post_client();
+	$idClient = ms_control_post();
 }
-
+//TODO : verifier que ce n'est pas 0
 fd_html_debut('BookShop | Liste de cadeaux', '../styles/bookshop.css');
 
 
@@ -152,8 +151,8 @@ function ms_afficher_liste($livre, $class, $prefix, $nbLivre, $clientConnecte, $
 		'<a href="', $prefix, 'php/liste.php?nbListe=0" ><img id="gauche" src="', $prefix, 'images/ajouts/precedent.jpg" alt="precedent" height="35" width="30"></a>';
 	}
 
-	echo '<form action="recherche.php" method="post">',
-			'<p class="centered">Rechercher par adresse e-mail <input type="text" name="quoi" value=" ">', 
+	echo '<form action="liste.php" method="post">',
+			'<p class="centered">Rechercher par adresse e-mail <input type="text" name="email" value=" ">', 
 			'<input type="submit" value="Rechercher" name="btnRechercher"></p></form>';
 }
 

@@ -150,7 +150,7 @@ function fd_afficher_livre($livre, $class, $prefix) {
  * 	@return array pages du site
  */
 function get_pages_bookshop() {
-	return array('index.php', 'login.php', 'inscription.php', 'deconnexion.php', 'recherche.php', 'presentation.html', 'panier.php', 'article.php', 'compte_utilisateur.php', 'recapitulatif.php', 'liste_veux.php');
+	return array('index.php', 'login.php', 'inscription.php', 'deconnexion.php', 'recherche.php', 'presentation.html', 'panier.php', 'article.php', 'compte_utilisateur.php', 'recapitulatif.php', 'liste.php');
 }
 
 /**
@@ -166,19 +166,11 @@ function ms_isset_liste($id) {
 	}else{
 		return FALSE;
 	}
-	$bd = fd_bd_connect();
-	$id = fd_bd_protect($bd, $id); 
-	$sql = "SELECT * 
-			FROM listes 
-			WHERE listIDLivre=$id";
-	$res = mysqli_query($bd, $sql) or fd_bd_erreur($bd,$sql);
-	if(mysqli_num_rows($res) > 0){
-		mysqli_free_result($res);
-		mysqli_close($bd);
-		return TRUE;
+	foreach($_SESSION['listeCadeau'] as $liste){
+		if($liste == $id){
+			return TRUE;
+		}
 	}
-	mysqli_free_result($res);
-	mysqli_close($bd);
 	return FALSE;
 }
 
