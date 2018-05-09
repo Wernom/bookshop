@@ -9,7 +9,6 @@ error_reporting(E_ALL);
 $valueQuoi = '';
 
 
-print_r2($_GET);
 if ($_GET){
 	$valueQuoi = fdl_control_get ();
 }
@@ -32,8 +31,9 @@ function ms_ajout_liste_contenu(){
     $bd = fd_bd_connect();
     $sql_ajout_liste = "INSERT INTO listes(listIDClient, listIDLivre) VALUES ({$_SESSION['cliID']}, {$_GET['id']})";
     $sql = fd_bd_protect($bd, $sql_ajout_liste);
-    $res = mysqli_query($bd,$sql) or fd_bd_erreur($bd,$sql);
+    $res = mysqli_query($bd,$sql_ajout_liste) or fd_bd_erreur($bd,$sql_ajout_liste);
     mysqli_close($bd);
+    $_SESSION['listeCadeau'][] = $_GET['id'];
 }
 
 /**
