@@ -432,6 +432,20 @@ __________________________________________________________________
     height: 40px;
 }
 
+#gauche {
+	margin-top: 10px;
+	margin-left: 5px;
+	float: left;
+	width: 30px;
+}
+
+#droite {
+	margin-top: 10px;
+	margin-right: 5px;
+	float:right;
+	width: 30px;
+}
+
 /*
 __________________________________________________________________
 						Panier
@@ -545,6 +559,34 @@ __________________________________________________________________
 __________________________________________________________________
 */
 
+.Commande {
+	position: relative;
+	  padding-bottom: 40px;
+  }
+	
+  .Commande img {
+	  float: left;
+	  height: 100px;
+	  padding-right: 10px;
+  }
+  
+  .Commande div {
+	  position: relative;
+	  height: 110px;
+	  padding-left: 30px;
+	  padding-top: 10px;
+	  clear: both;
+	  background: #FFFFE0;
+  }
+  
+  .Commande p {
+	  float: right;
+	  border: solid orange 1px;
+  }
+  
+  .Commande h2 {
+	  border-top: solid orange 2px;
+  }
 .pagination{
     margin: 0 auto;
     width: 20%;
@@ -567,6 +609,121 @@ __________________________________________________________________
 }
 
 .pagination a:hover:not(.active) {background-color: #ffc63e;}
+
+
+/*
+__________________________________________________________________
+						Liste Voeux
+__________________________________________________________________
+*/
+
+.Liste {
+	position: relative;
+}
+
+.Liste div {
+	position: relative;
+	height: 295px;
+}
+
+.Liste div div{
+	float: left;
+	position: relative;
+	width: 33%;
+}
+
+
+.Liste div div:hover{
+	background: rgb(253, 229, 151);
+}
+
+.Liste div div:hover img {
+	margin: 0px auto;
+	max-width:60%;
+	max-height: 200px;
+}
+.Liste div div img {
+  display: block;
+	margin: 10% auto;
+	max-width:65%;
+	max-height: 150px;
+}
+
+.Liste div div span {
+	position: relative;
+	display: block;
+	margin: 2px auto;
+	text-align: center;
+	visibility: hidden;
+}
+
+.Liste div div span strong {
+	padding-right: 0px;
+}
+
+.Liste div div:hover span{
+	visibility: visible;
+}
+
+.Liste div div:hover .addToCart {
+	right: 5px;
+	visibility: visible;
+}
+
+.Liste div div .delete {
+	position: absolute;
+	visibility: hidden;
+	top: 80px;
+	right: 10px;
+	width: 30px;
+	height: 30px;
+	background: url(../images/ajouts/croix.png) no-repeat;
+	background-size: 30px 30px;
+}
+
+.Liste div div:hover .delete {
+	visibility: visible;
+}
+
+/*
+__________________________________________________________________
+					Commandes
+__________________________________________________________________
+*/
+
+.Commande {
+	position: relative;
+	  padding-bottom: 40px;
+  }
+	
+  .Commande img {
+	  float: left;
+	  height: 100px;
+	  padding-right: 10px;
+  }
+  
+  .Commande div {
+	  position: relative;
+	  height: 110px;
+	  padding-left: 30px;
+	  padding-top: 10px;
+	  clear: both;
+	  background: #FFFFE0;
+  }
+  
+  .Commande p {
+	  float: right;
+	  border: solid orange 1px;
+  }
+  
+  .Commande h2 {
+	  border-top: solid orange 2px;
+  }
+
+
+
+
+
 
 /*
 __________________________________________________________________

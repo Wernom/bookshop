@@ -3,6 +3,24 @@
   <component name="ChangeListManager">
     <list default="true" id="94addb70-b605-40d8-bbcc-a3a5167263c0" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/images/ajouts/croix.png" afterPath="$PROJECT_DIR$/images/ajouts/croix.png" />
+      <change beforePath="$PROJECT_DIR$/images/ajouts/precedent.jpg" afterPath="$PROJECT_DIR$/images/ajouts/precedent.jpg" />
+      <change beforePath="$PROJECT_DIR$/images/ajouts/suivant.jpg" afterPath="$PROJECT_DIR$/images/ajouts/suivant.jpg" />
+      <change beforePath="$PROJECT_DIR$/index.php" afterPath="$PROJECT_DIR$/index.php" />
+      <change beforePath="$PROJECT_DIR$/php/ajout_liste.php" afterPath="$PROJECT_DIR$/php/ajout_liste.php" />
+      <change beforePath="$PROJECT_DIR$/php/ajout_panier.php" afterPath="$PROJECT_DIR$/php/ajout_panier.php" />
+      <change beforePath="$PROJECT_DIR$/php/ajouter_plusieur_livre_panier.php" afterPath="$PROJECT_DIR$/php/ajouter_plusieur_livre_panier.php" />
+      <change beforePath="$PROJECT_DIR$/php/bibli_bookshop.php" afterPath="$PROJECT_DIR$/php/bibli_bookshop.php" />
+      <change beforePath="$PROJECT_DIR$/php/commande.php" afterPath="$PROJECT_DIR$/php/commande.php" />
+      <change beforePath="$PROJECT_DIR$/php/details.php" afterPath="$PROJECT_DIR$/php/details.php" />
+      <change beforePath="$PROJECT_DIR$/php/inscription.php" afterPath="$PROJECT_DIR$/php/inscription.php" />
+      <change beforePath="$PROJECT_DIR$/php/liste.php" afterPath="$PROJECT_DIR$/php/liste.php" />
+      <change beforePath="$PROJECT_DIR$/php/login.php" afterPath="$PROJECT_DIR$/php/login.php" />
+      <change beforePath="$PROJECT_DIR$/php/moins_panier.php" afterPath="$PROJECT_DIR$/php/moins_panier.php" />
+      <change beforePath="$PROJECT_DIR$/php/panier.php" afterPath="$PROJECT_DIR$/php/panier.php" />
+      <change beforePath="$PROJECT_DIR$/php/recherche.php" afterPath="$PROJECT_DIR$/php/recherche.php" />
+      <change beforePath="$PROJECT_DIR$/php/supprimer_livre_panier.php" afterPath="$PROJECT_DIR$/php/supprimer_livre_panier.php" />
+      <change beforePath="$PROJECT_DIR$/styles/bookshop.css" afterPath="$PROJECT_DIR$/styles/bookshop.css" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -44,10 +62,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="recherche.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="recherche.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/php/recherche.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2196">
+            <state relative-caret-position="-1410">
               <caret line="122" column="78" lean-forward="false" selection-start-line="122" selection-start-column="78" selection-end-line="122" selection-end-column="78" />
               <folding>
                 <marker date="1525866760425" expanded="true" signature="2806:3044" ph="SELECT liID,... livres" />
@@ -71,7 +89,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="panier.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="panier.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/php/panier.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="550">
@@ -150,7 +168,7 @@
         <entry file="file://$PROJECT_DIR$/index.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="444">
-              <caret line="76" column="0" lean-forward="false" selection-start-line="76" selection-start-column="0" selection-end-line="76" selection-end-column="0" />
+              <caret line="76" column="0" lean-forward="true" selection-start-line="76" selection-start-column="0" selection-end-line="76" selection-end-column="0" />
               <folding>
                 <marker date="1525866831993" expanded="true" signature="1943:2156" ph="SELECT liID,... livres" />
                 <marker date="1525866831993" expanded="true" signature="2281:2778" ph="SELECT liID,... livres" />
@@ -164,6 +182,7 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
+      <find>con</find>
       <find>prix</find>
       <find>source</find>
       <find>encod</find>
@@ -193,7 +212,6 @@
       <find>bd</find>
       <find>url</find>
       <find>lienEx</find>
-      <find>lienE</find>
     </findStrings>
     <replaceStrings>
       <replace>btnValider</replace>
@@ -496,7 +514,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="126374000" />
+    <option name="totallyTimeSpent" value="125219000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="111" y="-4" width="1857" height="1092" extended-state="6" />
@@ -1033,10 +1051,22 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/php/recherche.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1410">
+          <caret line="122" column="78" lean-forward="false" selection-start-line="122" selection-start-column="78" selection-end-line="122" selection-end-column="78" />
+          <folding>
+            <marker date="1525866760425" expanded="true" signature="2806:3044" ph="SELECT liID,... livres" />
+            <marker date="1525866760425" expanded="true" signature="7080:7087" ph="«" />
+            <marker date="1525866760425" expanded="true" signature="7398:7405" ph="»" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/index.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="444">
-          <caret line="76" column="0" lean-forward="false" selection-start-line="76" selection-start-column="0" selection-end-line="76" selection-end-column="0" />
+          <caret line="76" column="0" lean-forward="true" selection-start-line="76" selection-start-column="0" selection-end-line="76" selection-end-column="0" />
           <folding>
             <marker date="1525866831993" expanded="true" signature="1943:2156" ph="SELECT liID,... livres" />
             <marker date="1525866831993" expanded="true" signature="2281:2778" ph="SELECT liID,... livres" />
@@ -1106,18 +1136,6 @@
             <marker date="1525867814144" expanded="true" signature="3126:3132" ph="€" />
             <marker date="1525867814144" expanded="true" signature="3167:3185" ph="..." />
             <marker date="1525867814144" expanded="true" signature="4452:4458" ph="€" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/php/recherche.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2196">
-          <caret line="122" column="78" lean-forward="false" selection-start-line="122" selection-start-column="78" selection-end-line="122" selection-end-column="78" />
-          <folding>
-            <marker date="1525866760425" expanded="true" signature="2806:3044" ph="SELECT liID,... livres" />
-            <marker date="1525866760425" expanded="true" signature="7080:7087" ph="«" />
-            <marker date="1525866760425" expanded="true" signature="7398:7405" ph="»" />
           </folding>
         </state>
       </provider>
