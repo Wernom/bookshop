@@ -17,7 +17,8 @@ echo '<h1>Panier</h1>';
 panier_contenu();
 
 fd_bookshop_pied();
-
+//On utilise se formulaire pour que les boutons placé dans un formulaire puisse fonctionner correctement.
+echo '<form id="none"></form>';
 fd_html_fin();
 
 ob_end_flush();
@@ -46,7 +47,7 @@ function panier_contenu(){
         unset($value);
 
 
-        $sql = "SELECT liID, liTitre, liPrix, edNom, auNom, auPrenom
+        $sql = "SELECT liID, liTitre, liPrix, edNom, auNom, auPrenom, edWeb
             FROM livres INNER JOIN editeurs ON liIDEditeur = edID
                         INNER JOIN aut_livre ON al_IDLivre = liID
                         INNER JOIN auteurs ON al_IDAuteur = auID
@@ -65,6 +66,7 @@ function panier_contenu(){
                 $livre = array('id' => $t['liID'],
                     'titre' => $t['liTitre'],
                     'edNom' => $t['edNom'],
+                    'edWeb' => $t['edWeb'],
                     'prix' => $t['liPrix'],
                     'auteurs' => array(array('prenom' => $t['auPrenom'], 'nom' => $t['auNom']))
                 );
@@ -130,7 +132,6 @@ function panier_afficher_livre($livre, $prefix){
  * @param string $prefix Préfixe du chemin vers le répertoire image.
  */
 function panier_formulaire($livre, $prefix){
-    echo '<form id="none"></form>';
 
     echo
     '<form action="ajouter_plusieur_livre_panier.php" method="get" class="Panier">',
@@ -170,7 +171,7 @@ function panier_formulaire($livre, $prefix){
             '<input class="PanierValider"  type="submit" name="valide" value="">',
         '</td>',
         '<td>',
-            '<button class="PanierSupprimer" form="none" type="submit" name="id" value="',$livre['id'],'"formmethod="get" formaction="', $prefix, 'php/supprimer_livre_panier.php" ></button>',
+            '<button class="PanierSupprimer" form="none" type="submit" name="id" value="',$livre['id'],'" formmethod="get" formaction="', $prefix, 'php/supprimer_livre_panier.php" ></button>',
         '</td>',
     '</tr>',
     '</table></form>';

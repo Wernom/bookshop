@@ -79,7 +79,14 @@ function requete_nouveaute($bd){
 }
 
 function requete_populaire($bd){
-	$sql = 'SELECT liID, liTitre, auNom, auPrenom FROM livres INNER JOIN editeurs ON liIDEditeur = edID INNER JOIN aut_livre ON al_IDLivre = liID INNER JOIN auteurs ON al_IDAuteur = auID INNER JOIN (SELECT ccIDLivre FROM compo_commande GROUP BY ccIDLivre ORDER BY SUM(ccQuantite) DESC) AS T ON ccIDLivre = liID';
+	$sql = 'SELECT liID, liTitre, auNom, auPrenom 
+            FROM livres INNER JOIN editeurs ON liIDEditeur = edID 
+                        INNER JOIN aut_livre ON al_IDLivre = liID 
+                        INNER JOIN auteurs ON al_IDAuteur = auID 
+                        INNER JOIN (SELECT ccIDLivre 
+                                    FROM compo_commande 
+                                    GROUP BY ccIDLivre 
+                                    ORDER BY SUM(ccQuantite) DESC) AS T ON ccIDLivre = liID';
     $res = mysqli_query($bd, $sql) or fd_bd_erreur($bd,$sql);
 
     return $res;
