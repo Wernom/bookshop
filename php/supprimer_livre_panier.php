@@ -5,7 +5,7 @@ session_start();
 require_once '../php/bibli_generale.php';
 require_once '../php/bibli_bookshop.php';
 error_reporting(E_ALL);
-control_get();
+$_GET['id'] = control_get();
 unset($_SESSION['cart'][$_GET['id']]);
 
 fd_redirige($_SERVER['HTTP_REFERER']);

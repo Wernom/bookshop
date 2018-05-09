@@ -117,13 +117,8 @@ function ms_afficher_detail($livre, $class, $prefix) {
 				fd_protect_sortie($livre['titre']),'">',
 				'<br>',
 				'<div>',
-					'<a class="addToCart" href="',$prefix,'php/ajout_panier.php?id=',$livre['id'],'" title="Ajouter au panier"></a>';
-			if(!ms_isset_liste($livre['id'])){
-				echo
-					'<a class="addToWishlist" href="',$prefix,'php/ajout_liste.php?id=',$livre['id'],'" title="Ajouter à la liste de cadeaux"></a>';
-
-			}
-				echo
+					'<a class="addToCart" href="#" title="Ajouter au panier"></a>',
+					'<a class="addToWishlist" href="#" title="Ajouter à la liste de cadeaux"></a>',
 					'Détails du livre : <br><br>',
 					'<strong>', fd_protect_sortie($livre['titre']), '</strong><br>';
 				$i = 0;
@@ -142,25 +137,8 @@ function ms_afficher_detail($livre, $class, $prefix) {
 					'ISBN13 : ', fd_protect_sortie($livre['ISBN13']), '<br>',
 				'</div>',
 			'</div>',
-			'<p>Resumé : <br>', fd_protect_sortie($livre['resume']), '</p>';
-	if(!isset($_SESSION['article'])){
-		echo '<div>';
-		$nb_articles = count($_SESSION['articles']);
-		foreach($_SESSION['articles'] as $key => $articles){
-			if($articles == $livre['id']){
-				if($key != 0){
-					echo
-						'<a href="', $prefix, 'php/details.php?article=', $_SESSION['articles'][($key-1)] , '" ><img id="gauche" src="', $prefix, 'images/ajouts/precedent.jpg" alt="precedent" height="35" width="30"></a>';
-				}if($key != $nb_articles - 1){
-					echo
-						'<a href="', $prefix, 'php/details.php?article=', $_SESSION['articles'][($key+1)] , '" ><img id="droite" src="', $prefix, 'images/ajouts/suivant.jpg" alt="suivant" height="35" width="30"></a>';
-				}
-			}
-		}
-		echo '</div>';
-	}
-	echo
-		'</div>';
+			'<p>Resumé : <br>', fd_protect_sortie($livre['resume']), '</p></div>';
 }
 
+function ms_suivant
 ?>

@@ -10,10 +10,10 @@ error_reporting(E_ALL); // toutes les erreurs sont capturées (utile lors de la 
 $valueType = 'auteur';
 $valueQuoi = '';
 
-($_GET && $_POST) && fd_exit_session();
 
+($_GET && $_POST) && fd_exit_session();
 if ($_GET){
-	$valueQuoi = fdl_control_get ();
+	control_get ();
 }
 else if ($_POST){
 	$valueQuoi = fdl_control_post ($valueType);
@@ -57,11 +57,9 @@ function fdl_contenu($valueType, $valueQuoi) {
 			'<input type="submit" value="Rechercher" name="btnRechercher"></p></form>';
 
 
-	if (! $_GET && ! $_POST ){
+	if (! $_POST ){
         if(isset($_SESSION['livre'])){
-            foreach ($_SESSION['livre'] as $value){
-                fd_afficher_livre($value, 'bcResultat', '../');
-			}
+            pagination();
 
             return;
         }
@@ -90,6 +88,8 @@ function fdl_contenu($valueType, $valueQuoi) {
 		$critere = " WHERE liTitre LIKE '%$q%'";
 	}
 
+	//Pour la pagination on ne peut pas juste rajouter LIMIT a OFFSET b car on à pour un  livre plusieur résultat dans
+    //la requette, on risque donc de se retrouver avec des erreurs lors de l'affichage des livres.
 	$sql = 	"SELECT liID, liTitre, liPrix, liPages, liISBN13, edNom, edWeb, auNom, auPrenom 
 			FROM livres INNER JOIN editeurs ON liIDEditeur = edID 
 						INNER JOIN aut_livre ON al_IDLivre = liID 
@@ -101,11 +101,12 @@ function fdl_contenu($valueType, $valueQuoi) {
 	$lastID = -1;
     $_SESSION['articles'] = array();
     $_SESSION['livre'] = array();
+    //$nb_livre_a_aficher =
 	while ($t = mysqli_fetch_assoc($res)) {
 		if ($t['liID'] != $lastID) {
 			if ($lastID != -1) {
-				$_SESSION['livre'][] = $livre;
-				fd_afficher_livre($livre, 'bcResultat', '../');	
+                $_SESSION['livre'][] = $livre;
+				//fd_afficher_livre($livre, 'bcResultat', '../');
 			}
 			$lastID = $t['liID'];
 			$livre = array(	'id' => $t['liID'], 
@@ -129,11 +130,13 @@ function fdl_contenu($valueType, $valueQuoi) {
 	mysqli_close($bd);
     $_SESSION['livre'][] = $livre;
 	if ($lastID != -1) {
-		fd_afficher_livre($livre, 'bcResultat', '../');	
+		//fd_afficher_livre($livre, 'bcResultat', '../');
+        pagination();
 	}
 	else{
 		echo '<p>Aucun livre trouvé</p>';
 	}
+
 }
 
 /**
@@ -143,18 +146,12 @@ function fdl_contenu($valueType, $valueQuoi) {
  *
  * @global  array     $_GET
  *
- * @return string           partie du nom de l'auteur à rechercher
  */
-function fdl_control_get (){
-	(count($_GET) != 2) && fd_exit_session();
-	(! isset($_GET['type']) || $_GET['type'] != 'auteur') && fd_exit_session();
-	(! isset($_GET['quoi'])) && fd_exit_session();
+function control_get (){
+    (count($_GET) != 1) && fd_exit_session();
+    !isset($_GET['page']) && fd_exit_session();
+    (!is_numeric($_GET['page'])) && fd_exit_session();
 
-    $valueQ = trim($_GET['quoi']);
-    $notags = strip_tags($valueQ);
-    (mb_strlen($notags, 'UTF-8') != mb_strlen($valueQ, 'UTF-8')) && fd_exit_session();
-    
-	return $valueQ;
 }
 
 /**
@@ -182,4 +179,54 @@ function fdl_control_post (&$valueT){
     
     return $valueQ;
 }
+
+/**
+ * Gere la pagination. Affiche le bon nombre de livre par page et en bas de page le moyen pour naviguer d'une page à
+ * l'autre.
+ * @global array $_GET la page courent
+ */
+function pagination(){
+    $nb_livre = count($_SESSION['livre']);
+    $livre_par_page = 5;
+    $nb_page = $nb_livre/$livre_par_page;
+
+    if(!isset($_GET['page'])){
+        $page = 1;
+    }else{
+        $page = $_GET['page'];
+        if($page < 1){
+            $page = 1;
+        }else if($page > $nb_page){
+            $page = $nb_page;
+        }
+    }
+    $premier_livre_affiche = $livre_par_page*($page-1);
+    $dernier_livre_affiche = $premier_livre_affiche + 5;
+    $i=0;
+    foreach ($_SESSION['livre'] as $livre){
+        if($i < $premier_livre_affiche){
+            ++$i;
+            continue;
+        }else if($i < $dernier_livre_affiche){
+            fd_afficher_livre($livre, 'bcResultat', '../');
+        }else{
+            break;
+        }
+        ++$i;
+    }
+
+    echo '<div class="pagination">',
+        '<a href="./recherche.php?page=',$page-1,'">&laquo;</a>';
+    for($j = 1; $j < $nb_page + 1; ++$j){
+        if($j == $page){
+            echo '<a class="active" href="./recherche.php?page=',$j,'">',$j,'</a>';
+        }else{
+            echo '<a href="./recherche.php?page=',$j,'">',$j,'</a>';
+        }
+    }
+    echo '<a href="./recherche.php?page=',$page+1,'">&raquo;</a>',
+       '</div>';
+}
+
+
 ?>

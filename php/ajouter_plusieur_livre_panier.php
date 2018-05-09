@@ -4,14 +4,19 @@ ob_start('ob_gzhandler');
 session_start();
 require_once '../php/bibli_generale.php';
 require_once '../php/bibli_bookshop.php';
-print_r2($_GET);
+//print_r2($_GET);
 error_reporting(E_ALL);
 
-control_get();
-if(isset($_SESSION['cart'][$_GET['id']]) && $_GET['quantite'] < 1){
-   unset($_SESSION['cart'][$_GET['id']]);
-}else if(isset($_SESSION['cart'][$_GET['id']])){
-    $_SESSION['cart'][$_GET['id']] = $_GET['quantite'];
+$_GET['id'] = control_get();
+if(isset($_SESSION['cart'][$_GET['id']])){
+    if(!is_numeric($_GET['quantite']) || (integer)$_GET['quantite'] != $_GET['quantite']){
+        fd_redirige($_SERVER['HTTP_REFERER']);
+    }
+    if($_GET['quantite'] < 1){
+        unset($_SESSION['cart'][$_GET['id']]);
+    }else{
+        $_SESSION['cart'][$_GET['id']] = $_GET['quantite'];
+    }
 }else{
     $_SESSION['cart'][$_GET['id']] = 1;
 }
@@ -29,7 +34,7 @@ ob_end_flush();
 function control_get (){
     (count($_GET) != 3) && fd_exit_session();
     ! isset($_GET['id']) && fd_exit_session();
-    (!isset($_GET['valide']) || $_GET['valide'] != 'V') && fd_exit_session();
+    (!isset($_GET['valide']) || $_GET['valide'] != '') && fd_exit_session();
     !isset($_GET['id']) && fd_exit_session();
 
 

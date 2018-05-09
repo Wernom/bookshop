@@ -11,7 +11,7 @@ error_reporting(E_ALL); // toutes les erreurs sont capturées (utile lors de la 
 ($_POST) && fdl_control_piratage();
 
 // si utilisateur déjà authentifié, on le redirige sur la page appelante, ou à défaut sur l'index
-if (isset($_SESSION['cliID'])){
+if(isset($_SESSION['cliID'])){
     $page = '../index.php';
     if (isset($_SERVER['HTTP_REFERER'])){
         $page = $_SERVER['HTTP_REFERER'];

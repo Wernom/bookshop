@@ -147,21 +147,10 @@ function fdl_traitement_connexion() {
 	
 	// mémorisation de l'ID du client dans une variable de session
     // cette variable de session permet de savoir si le client est authentifié
-    $_SESSION['cliID'] = $id;
-    
-    $sql2 = "SELECT listIDLivre
-             FROM listes 
-             WHERE listIDClient = $id";
-    $res2 = mysqli_query($bd, $sql2) or fd_bd_erreur($bd,$sql2);
+	$_SESSION['cliID'] = $id;
 
-    $_SESSION['listeCadeau'] = array();
-    while($t2 = mysqli_fetch_assoc($res2)){
-        $_SESSION['listeCadeau'][] = $t2['listIDLivre'];
-    }
-    
 	// fermeture des ressources et de la connexion à la base
-    mysqli_free_result($res);
-    mysqli_free_result($res2);
+	mysqli_free_result($res);
 	mysqli_close($bd);
 
 	// et redirection vers la page d'origine

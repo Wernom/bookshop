@@ -24,8 +24,10 @@ ob_end_flush();
 
 /**
  * Contenu de la page panier.php.
+ * On calcule egalement le prix total de la commande.
  */
 function panier_contenu(){
+    $prix_total = 0;
     if(isset($_SESSION['commande'])){
         echo '<h1>La commande à bien été enregistré</h1>';
         unset($_SESSION['commande']);
@@ -56,6 +58,7 @@ function panier_contenu(){
         while ($t = mysqli_fetch_assoc($res)) {
             if ($t['liID'] != $lastID) {
                 if ($lastID != -1) {
+                    $prix_total += $livre['prix']*$_SESSION['cart'][$livre['id']];
                     panier_afficher_livre($livre, '../');
                 }
                 $lastID = $t['liID'];
@@ -73,6 +76,7 @@ function panier_contenu(){
         mysqli_close($bd);
 
         if ($lastID != -1) {
+            $prix_total += $livre['prix']*$_SESSION['cart'][$livre['id']];
             panier_afficher_livre($livre, '../');
         } else {
             echo '<p>Aucun livre trouvé</p>';
@@ -81,16 +85,17 @@ function panier_contenu(){
         echo '<h3>Votre panier est vide.</h3>';
     }
     if(isset($_SESSION['cart']) && count($_SESSION['cart']) > 0){
+        echo '<hr/>';
+        echo '<h3 class="Panier">Prix Total : ',number_format($prix_total, 2) , ' &euro;</h3>';
         echo '<form style="text-align: center"><button  type="submit" formaction="commande.php">Commander</button></form>';
     }
-
 }
 
 
 /**
  * Afficher les livres du panier
  *
- * @param array $livre Tableau contenant les information su les livre.
+ * @param array $livre Tableau contenant les information su les livres.
  * @param string $prefix Préfixe du chemin vers le répertoire image.
  */
 function panier_afficher_livre($livre, $prefix){
@@ -118,8 +123,12 @@ function panier_afficher_livre($livre, $prefix){
     echo '</div>';
 }
 
-//    '<input type="hidden" name="id" value="',$livre['id'],'">',
 
+/**
+ * Affiche le formulaire du panier.
+ * @param array $livre Tableau contenant les information su les livres.
+ * @param string $prefix Préfixe du chemin vers le répertoire image.
+ */
 function panier_formulaire($livre, $prefix){
     echo '<form id="none"></form>';
 
@@ -137,6 +146,12 @@ function panier_formulaire($livre, $prefix){
         '<th>',
             'Total',
         '</th>',
+        '<th>',
+            'Valider',
+        '</th>',
+        '<th>',
+            'Supprimer',
+        '</th>',
     '</tr>',
     '<tr>',
         '<td>',
@@ -152,14 +167,28 @@ function panier_formulaire($livre, $prefix){
         '</td>',
         '<td>',
             '<input type="hidden" name="id" value="',$livre['id'],'">',
-            '<input type="submit" name="valide" value="V">',
-            '<button form="none" type="submit" name="id" value="',$livre['id'],'"formmethod="get" formaction="', $prefix, 'php/supprimer_livre_panier.php" >X</button>',
+            '<input class="PanierValider"  type="submit" name="valide" value="">',
+        '</td>',
+        '<td>',
+            '<button class="PanierSupprimer" form="none" type="submit" name="id" value="',$livre['id'],'"formmethod="get" formaction="', $prefix, 'php/supprimer_livre_panier.php" ></button>',
         '</td>',
     '</tr>',
-'</table></form>';
+    '</table></form>';
 }
 
+/**
+ * Calcul le prix totla d'un livre.
+ *
+ * @param array $livre le livre dont on veut connaitre le prix
+ * @return float Le prix des livres.
+ */
+function panier_prix_total($livre){
+    $res = 0;
 
+    foreach ($livre as $value) {
+        $res += $value['prix']*$_SESSION['cart'][$value['id']];
+    }
 
-
+    return $res;
+}
 ?>
