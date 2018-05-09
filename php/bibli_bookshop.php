@@ -105,7 +105,6 @@ function fd_bookshop_pied() {
 function fd_afficher_livre($livre, $class, $prefix) {
 	echo 
 		'<div class="', $class, '">', 
-			// TODO : à modifier pour le projet  
 			'<a class="addToCart" href="',$prefix,'php/ajout_panier.php?id=',$livre['id'],'" title="Ajouter au panier"></a>';
 	if(!ms_isset_liste($livre['id'])){
 		echo
